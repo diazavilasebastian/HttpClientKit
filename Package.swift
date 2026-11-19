@@ -2,14 +2,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "ItauHttpClient",
-    platforms: [.iOS(.v17)],
+    name: "HttpClientKit",
+    platforms: [.iOS(.v17), .macOS(.v14)],
     products: [
-        .library(name: "ItauHttpClient", targets: ["ItauHttpClient"])
+        .library(name: "HttpClientKit", targets: ["HttpClientKit"])
     ],
     targets: [
-        .target(name: "ItauHttpClient"),
-        .testTarget(name: "ItauHttpClientTests", dependencies: ["ItauHttpClient"])
+        .target(name: "HttpClientKit"),
+        .testTarget(name: "HttpClientKitTests", dependencies: ["HttpClientKit"])
     ],
     swiftLanguageModes: [.v5]
 )
