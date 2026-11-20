@@ -4,23 +4,22 @@
 //
 //  Created by Sebastian Diaz Avila on 18-11-26.
 //
-
 import Foundation
 
 public protocol ItauEndpointProtocol {
-    var scheme: String { get }
+    var scheme: APIScheme { get }        // antes: String
     var host: String { get }
-    var path: String { get }
+    var router: String { get }           // antes: path
     var method: APIMethod { get }
-    var headers: [String: String]? { get }
+    var headers: HTTPHeaders? { get }    // antes: [String: String]?
 }
 
 public extension ItauEndpointProtocol {
     var urlRequest: URLRequest? {
         var components = URLComponents()
-        components.scheme = scheme
+        components.scheme = scheme.rawValue   // antes: scheme
         components.host = host
-        components.path = path
+        components.path = router              // antes: path
         
         guard let url = components.url else { return nil }
         

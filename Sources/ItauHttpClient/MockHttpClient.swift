@@ -1,10 +1,3 @@
-//
-//  MockHttpClient.swift
-//  ItauHttpClient
-//
-//  Created by Sebastian Diaz Avila on 18-11-26.
-//
-
 import Foundation
 
 public final class MockHttpClient: ItauHttpClientProtocol {
@@ -30,7 +23,8 @@ public final class MockHttpClient: ItauHttpClientProtocol {
         self.delaySeconds = delaySeconds
     }
     
-    public func request<T: Decodable>(_ endpoint: any ItauEndpointProtocol) async -> Result<T, APIError> {
+    // antes: request<T: Decodable>(_ endpoint: any ItauEndpointProtocol)
+    public func result<T: Decodable>(urlRequest: URLRequest?, decoder: JSONDecoder?) async -> Result<T, APIError> {
         try? await Task.sleep(for: .seconds(delaySeconds))
         
         switch scenario {
@@ -48,7 +42,7 @@ public final class MockHttpClient: ItauHttpClientProtocol {
         }
         
         do {
-            return .success(try JSONDecoder().decode(T.self, from: data))
+            return .success(try (decoder ?? JSONDecoder()).decode(T.self, from: data))  // antes: JSONDecoder()
         } catch {
             return .failure(.jsonParsingFailure)
         }

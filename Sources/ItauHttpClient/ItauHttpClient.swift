@@ -1,23 +1,16 @@
-//
-//  URLSessionHttpClient.swift
-//  ItauHttpClient
-//
-//  Created by Sebastian Diaz Avila on 18-11-26.
-//
-
+// The Swift Programming Language
+// https://docs.swift.org/swift-book
 import Foundation
 
-public final class URLSessionHttpClient: ItauHttpClientProtocol {
+public final class ItauHttpClient: ItauHttpClientProtocol {
     private let session: URLSession
-    private let decoder: JSONDecoder
     
-    public init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
+    public init(session: URLSession = .shared) {
         self.session = session
-        self.decoder = decoder
     }
     
-    public func request<T: Decodable>(_ endpoint: any ItauEndpointProtocol) async -> Result<T, APIError> {
-        guard let urlRequest = endpoint.urlRequest else {
+    public func result<T: Decodable>(urlRequest: URLRequest?, decoder: JSONDecoder?) async -> Result<T, APIError> {
+        guard let urlRequest else {
             return .failure(.invalidURL)
         }
         
@@ -32,7 +25,7 @@ public final class URLSessionHttpClient: ItauHttpClientProtocol {
             }
             
             do {
-                return .success(try decoder.decode(T.self, from: data))
+                return .success(try (decoder ?? JSONDecoder()).decode(T.self, from: data))
             } catch {
                 return .failure(.jsonParsingFailure)
             }
@@ -50,4 +43,3 @@ public final class URLSessionHttpClient: ItauHttpClientProtocol {
         }
     }
 }
-

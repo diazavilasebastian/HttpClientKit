@@ -2,14 +2,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "HttpClientKit",
+    name: "ItauHttpClient",
     platforms: [.iOS(.v16)],
     products: [
-        .library(name: "HttpClientKit", targets: ["HttpClientKit"])
+        .library(name: "ItauHttpClient", targets: ["ItauHttpClient"])
     ],
     targets: [
-        .target(name: "HttpClientKit"),
-        .testTarget(name: "HttpClientKitTests", dependencies: ["HttpClientKit"])
+        .target(name: "ItauHttpClient")
     ],
     swiftLanguageModes: [.v5]
 )
